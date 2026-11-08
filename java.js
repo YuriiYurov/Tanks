@@ -1159,7 +1159,7 @@ let map1RoadMaskData = null;
 let map2RoadMaskData = null;
 let map3RoadMaskData = null;
 let map4RoadMaskData = null;
-
+let currentBattleMap = null;
 
 // Создаём уменьшенную маску прозрачности дороги
 function buildMap1RoadMask() {
