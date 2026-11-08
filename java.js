@@ -507,32 +507,32 @@ const smoke5Image = new Image();
 smoke5Image.src = "Krita1/smoke5.png";
 
 const treeImage = new Image();
-treeImage.src = "Krita1/tree.png";
+treeImage.src = "Krita1/tree.PNG";
 
 const pineImage = new Image();
-pineImage.src = "Krita1/pine.png";
+pineImage.src = "Krita1/pine.PNG";
 
 const cactus1Image = new Image();
-cactus1Image.src = "Krita1/cactus1.png";
+cactus1Image.src = "Krita1/cactus1.PNG";
 
 const cactus2Image = new Image();
-cactus2Image.src = "Krita1/cactus2.png";
+cactus2Image.src = "Krita1/cactus2.PNG";
 
 const cactus3Image = new Image();
-cactus3Image.src = "Krita1/cactus3.png";
+cactus3Image.src = "Krita1/cactus3.PNG";
 
 const cactus4Image = new Image();
-cactus4Image.src = "Krita1/cactus4.png";
+cactus4Image.src = "Krita1/cactus4.PNG";
 
 const houseImage = new Image();
 
 houseImage.src =
-    "Krita1/house.png";
+    "Krita1/house.PNG";
 
 const house2Image = new Image();
 
 house2Image.src =
-    "Krita1/house2.png";
+    "Krita1/house2.PNG";
 
 const hedgehogImage = new Image();
 
