@@ -1,0 +1,3481 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #000;
+}
+
+
+canvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ========================================
+   HANGAR MENU
+======================================== */
+
+#hangarMenu {
+
+    position: fixed;
+
+    top: 30px;
+    left: 40px;
+
+    width: 420px;
+    height: 750px;
+
+    z-index: 100;
+
+    display: none;
+}
+
+
+/* ========================================
+   SCROLL CONTAINER
+======================================== */
+
+#scroll {
+
+    position: relative;
+
+    width: 420px;
+    height: 750px;
+}
+
+
+/* ========================================
+   TOP ROLLER
+======================================== */
+
+#topScroll {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 380px;
+    height: 82px;
+
+    z-index: 3;
+}
+
+#topScroll img {
+
+    display: block;
+
+    width: 380px;
+    height: 82px;
+
+    object-fit: fill;
+}
+
+
+/* ========================================
+   PAPER
+======================================== */
+
+#scrollPaper {
+
+    position: absolute;
+
+    top: 70px;
+    left: 25px;
+
+    width: 330px;
+    height: 0;
+
+    overflow: hidden;
+
+    z-index: 1;
+
+    opacity: 0;
+
+    transition:
+        height 0.6s cubic-bezier(0.22,
+            0.61,
+            0.36,
+            1),
+        opacity 0.2s ease;
+}
+
+
+#scrollPaper img {
+
+    display: block;
+
+    width: 330px;
+    height: 515px;
+
+    object-fit: fill;
+}
+
+
+/* ========================================
+   BOTTOM ROLLER
+======================================== */
+
+#bottomScroll {
+
+    position: absolute;
+
+    top: 90px;
+    left: 0;
+
+    width: 420px;
+    height: 90px;
+
+    z-index: 2;
+
+    opacity: 0;
+
+    transition:
+        top 0.6s cubic-bezier(0.22,
+            0.61,
+            0.36,
+            1),
+        opacity 0.2s ease;
+}
+
+
+#bottomScroll img {
+
+    display: block;
+
+    width: 420px;
+    height: 90px;
+
+    object-fit: fill;
+}
+
+#bottomScroll {
+
+    position: absolute;
+
+    top: 70px;
+    left: 0;
+
+    width: 380px;
+    height: 82px;
+
+    z-index: 2;
+
+    opacity: 0;
+
+    transition:
+        top 0.6s cubic-bezier(0.22,
+            0.61,
+            0.36,
+            1),
+        opacity 0.2s ease;
+}
+
+#bottomScroll img {
+
+    display: block;
+
+    width: 380px;
+    height: 82px;
+
+    object-fit: fill;
+}
+
+
+/* ========================================
+   OPEN SCROLL
+======================================== */
+
+#hangarMenu:hover #scrollPaper {
+
+    height: 515px;
+
+    opacity: 1;
+}
+
+
+#hangarMenu:hover #bottomScroll {
+
+    top: 570px;
+
+    opacity: 1;
+}
+
+#scrollButtons {
+
+    position: absolute;
+
+    top: 70px;
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 35px;
+
+    z-index: 5;
+
+    opacity: 0;
+
+    transform: translateY(-15px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.4s ease;
+}
+
+
+/* ========================================
+   SHOW TEXT
+======================================== */
+
+#hangarMenu:hover #scrollButtons {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+    transition-delay: 0.35s;
+}
+
+
+/* ========================================
+   TEXT BUTTON
+======================================== */
+
+#scrollButtons button {
+
+    border: none;
+
+    background: transparent;
+
+    padding: 0;
+
+    margin: 0;
+
+    color: #403d2c;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 22px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 1px 1px rgba(255, 255, 255, 0.25);
+
+    transition:
+        transform 0.18s ease,
+        color 0.18s ease,
+        text-shadow 0.18s ease;
+}
+
+
+/* ========================================
+   HOVER TEXT
+======================================== */
+
+#scrollButtons button:hover {
+
+    transform:
+        translateX(8px);
+
+    color: #17170f;
+
+    text-shadow:
+        0 0 8px rgba(255, 235, 120, 0.8);
+}
+
+#researchScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    background:
+        radial-gradient(circle at 35% 50%,
+            #292d2a 0%,
+            #151716 45%,
+            #090a0a 100%);
+
+    color: #d7d5c8;
+
+    font-family: Arial, sans-serif;
+
+    z-index: 200;
+
+    overflow: hidden;
+}
+
+
+/* ========================================
+   TOP BAR
+======================================== */
+
+#researchTopBar {
+
+    height: 90px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 40px;
+
+    border-bottom:
+        1px solid rgba(180, 180, 160, 0.2);
+
+    background:
+        rgba(10, 11, 11, 0.75);
+}
+
+
+#researchTitle {
+
+    flex: 1;
+
+    text-align: center;
+
+    font-size: 30px;
+
+    letter-spacing: 6px;
+
+    font-weight: 700;
+}
+
+
+#researchMoney {
+
+    font-size: 20px;
+
+    letter-spacing: 1px;
+}
+
+
+#researchBack {
+
+    width: 130px;
+    height: 45px;
+
+    background:
+        rgba(40, 42, 39, 0.8);
+
+    border:
+        1px solid rgba(200, 200, 180, 0.25);
+
+    color: #d8d6c9;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#researchBack:hover {
+
+    background:
+        rgba(75, 78, 72, 0.9);
+
+    transform:
+        translateX(-3px);
+}
+
+
+/* ========================================
+   MAIN AREA
+======================================== */
+
+#researchMain {
+
+    display: flex;
+
+    height:
+        calc(100% - 90px);
+
+    padding: 35px 45px;
+
+    box-sizing: border-box;
+
+    gap: 45px;
+}
+
+
+/* ========================================
+   CURRENT TANK
+======================================== */
+
+#currentTankPanel {
+
+    width: 330px;
+
+    min-width: 330px;
+
+    position: relative;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid rgba(180, 180, 160, 0.18);
+
+    background:
+        linear-gradient(145deg,
+            rgba(45, 48, 45, 0.9),
+            rgba(18, 20, 19, 0.9));
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.45);
+}
+
+
+.panelLabel {
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    color: #8d9189;
+}
+
+
+#tankLevel {
+
+    margin-top: 8px;
+
+    font-size: 13px;
+
+    color: #c7a94b;
+
+    letter-spacing: 2px;
+}
+
+
+/* ========================================
+   TANK PLACEHOLDER
+======================================== */
+
+#tankImagePlaceholder {
+
+    height: 300px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+#tankImagePlaceholder {
+
+    height: 300px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+}
+
+
+#researchTankImage {
+
+    width: 220px;
+
+    height: auto;
+
+    object-fit: contain;
+
+    display: block;
+
+    filter:
+        drop-shadow(0 20px 25px rgba(0, 0, 0, 0.65));
+
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease;
+
+    transform: rotate(90deg);
+}
+
+
+#researchTankImage:hover {
+
+    transform:
+        scale(1.04);
+
+    filter:
+        drop-shadow(0 22px 30px rgba(0, 0, 0, 0.8));
+}
+
+
+/* ========================================
+   TANK NAME
+======================================== */
+
+#tankName {
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+}
+
+
+#tankType {
+
+    text-align: center;
+
+    margin-top: 6px;
+
+    color: #888e86;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+}
+
+
+/* ========================================
+   TANK STATS
+======================================== */
+
+#tankStats {
+
+    margin-top: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+#tankStats div {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    padding-bottom: 7px;
+}
+
+
+#tankStats span {
+
+    color: #777d76;
+
+    font-size: 12px;
+}
+
+
+#tankStats b {
+
+    color: #d2d0c4;
+}
+
+
+/* ========================================
+   RESEARCH TREE
+======================================== */
+
+#researchTree {
+
+    flex: 1;
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-around;
+
+    padding-right: 250px;
+}
+
+
+/* ========================================
+   RESEARCH ROW
+======================================== */
+
+.researchRow {
+
+    display: flex;
+
+    align-items: center;
+
+    height: 85px;
+}
+
+
+.rowTitle {
+
+    width: 120px;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    color: #8b9089;
+}
+
+
+/* ========================================
+   NODES
+======================================== */
+
+.nodes {
+
+    display: flex;
+
+    align-items: center;
+
+    flex: 1;
+}
+
+
+.researchNode {
+
+    width: 54px;
+    height: 54px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.researchNode:hover {
+
+    transform: scale(1.12);
+}
+
+
+/* COMPLETED */
+
+.researchNode.completed {
+
+    background:
+        #566053;
+
+    border:
+        2px solid #8f9a8b;
+
+    color: #e4e5dc;
+
+    box-shadow:
+        0 0 12px rgba(150, 160, 140, 0.25);
+}
+
+
+/* AVAILABLE */
+
+.researchNode.available {
+
+    background:
+        #76642f;
+
+    border:
+        2px solid #c7a94b;
+
+    color: #fff3bd;
+
+    box-shadow:
+        0 0 18px rgba(210, 175, 60, 0.35);
+
+    cursor: pointer;
+}
+
+
+/* LOCKED */
+
+.researchNode.locked {
+
+    background:
+        #202320;
+
+    border:
+        2px solid #454a44;
+
+    color: #565b54;
+}
+
+
+/* ========================================
+   CONNECTION LINE
+======================================== */
+
+.researchLine {
+
+    flex: 1;
+
+    height: 3px;
+
+    background:
+        #454a44;
+
+    max-width: 70px;
+}
+
+
+.researchNode.completed+.researchLine {
+
+    background:
+        #7b846f;
+}
+
+
+/* ========================================
+   NEXT TANK
+======================================== */
+
+#nextTank {
+
+    position: absolute;
+
+    right: 0;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 190px;
+
+    height: 230px;
+
+    border:
+        1px solid rgba(190, 190, 160, 0.18);
+
+    background:
+        linear-gradient(145deg,
+            rgba(35, 38, 35, 0.95),
+            rgba(15, 16, 15, 0.95));
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.nextTankLock {
+
+    font-size: 38px;
+
+    opacity: 0.5;
+}
+
+
+.nextTankName {
+
+    margin-top: 15px;
+
+    font-size: 23px;
+
+    letter-spacing: 3px;
+
+    color: #70756d;
+}
+
+
+.nextTankText {
+
+    margin-top: 15px;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    letter-spacing: 1px;
+
+    color: #5f645d;
+}
+
+/* ========================================
+   MODULE LEVEL + PRICE
+======================================== */
+
+.researchNode {
+
+    flex-direction: column;
+
+}
+
+
+.moduleLevel {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+
+.modulePrice {
+
+    margin-top: 3px;
+
+    font-size: 8px;
+
+    color: #c7a94b;
+
+    white-space: nowrap;
+
+}
+
+/* ========================================
+   NATION NAVIGATION
+======================================== */
+
+#nationNavigation {
+
+    margin-top: 8px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 0;
+}
+
+
+#nationName {
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    color: #8d9189;
+}
+
+
+.nationArrow {
+
+    width: 45px;
+
+    height: 25px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #777d75;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.15s ease,
+        transform 0.15s ease,
+        text-shadow 0.15s ease;
+}
+
+
+.nationArrow:hover {
+
+    color: #d1bd69;
+
+    transform: scale(1.2);
+
+    text-shadow:
+        0 0 10px rgba(210, 185, 80, 0.6);
+}
+
+#nationUp {
+
+    display: none;
+}
+
+/* ========================================
+   BUY TANK BUTTON
+======================================== */
+
+#buyTankButton {
+
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 25px;
+
+    border: 1px solid #c7a94b;
+
+    background:
+        rgba(110, 90, 35, 0.35);
+
+    color: #e4d28b;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#buyTankButton:hover {
+
+    background:
+        rgba(150, 120, 40, 0.45);
+
+    box-shadow:
+        0 0 18px rgba(210, 175, 60, 0.35);
+
+    transform:
+        translateY(-2px);
+}
+
+
+#buyTankButton:disabled {
+
+    border-color: #454a44;
+
+    background:
+        rgba(30, 32, 30, 0.7);
+
+    color: #62665f;
+
+    cursor: default;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+#researchTree.tankLocked {
+
+    opacity: 0.35;
+
+    pointer-events: none;
+
+    filter:
+        grayscale(0.8);
+}
+
+/* ========================================
+   HANGAR TANK RIBBON
+======================================== */
+
+#hangarTankRibbon {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 22px;
+
+    transform: translateX(-50%);
+
+    width: 700px;
+    height: 145px;
+
+    z-index: 150;
+
+    display: none;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+
+    /* Основной металлический корпус */
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(70, 73, 68, 0.98) 0%,
+            rgba(35, 38, 35, 0.99) 7%,
+            rgba(18, 20, 19, 1) 50%,
+            rgba(30, 32, 29, 1) 93%,
+            rgba(60, 62, 57, 0.98) 100%);
+
+    border:
+        1px solid rgba(180, 175, 145, 0.45);
+
+    box-shadow:
+
+        0 -8px 30px rgba(0, 0, 0, 0.55),
+
+        0 5px 15px rgba(0, 0, 0, 0.45),
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+
+        inset 0 -2px 0 rgba(0, 0, 0, 0.7);
+
+}
+
+
+/* ========================================
+   ВНУТРЕННЯЯ РАМКА
+======================================== */
+
+#hangarTankRibbon::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 4px;
+
+    pointer-events: none;
+
+    border:
+        1px solid rgba(10, 11, 10, 0.95);
+
+    box-shadow:
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+
+        inset 0 0 0 1px rgba(120, 120, 105, 0.12);
+}
+
+
+/* ========================================
+   ВЕРХНЯЯ МЕТАЛЛИЧЕСКАЯ ПОЛОСА
+======================================== */
+
+#hangarTankRibbon::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 7px;
+    left: 8px;
+    right: 8px;
+
+    height: 3px;
+
+    pointer-events: none;
+
+    background:
+
+        linear-gradient(90deg,
+            transparent,
+            rgba(210, 205, 175, 0.18),
+            rgba(210, 205, 175, 0.35),
+            rgba(210, 205, 175, 0.18),
+            transparent);
+}
+
+
+/* ========================================
+   TANK LIST
+======================================== */
+
+#tankRibbonList {
+
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    flex-wrap: nowrap;
+
+    padding-bottom: 4px;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+}
+
+
+/* ========================================
+   TANK SLOT
+======================================== */
+
+.tankRibbonItem {
+
+    position: relative;
+
+    min-width: 0;
+    flex: 0 0 calc((100% - 24px) / 4);
+
+    height: 100%;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+
+    /* Тёмная броня */
+
+    background:
+
+        linear-gradient(145deg,
+            rgba(66, 69, 63, 0.95),
+            rgba(36, 39, 35, 0.98) 45%,
+            rgba(17, 19, 17, 1));
+
+
+    border:
+
+        1px solid rgba(155, 155, 140, 0.28);
+
+
+    box-shadow:
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+
+        inset 0 -3px 0 rgba(0, 0, 0, 0.45);
+
+
+    transition:
+
+        transform 0.18s ease,
+
+        border-color 0.18s ease,
+
+        box-shadow 0.18s ease,
+
+        background 0.18s ease;
+
+}
+
+/* ========================================
+   ВНУТРЕННЯЯ РАМКА СЛОТА
+======================================== */
+
+.tankRibbonItem::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 3px;
+
+    pointer-events: none;
+
+    border:
+        1px solid rgba(210, 205, 180, 0.08);
+
+}
+
+
+/* ========================================
+   НИЖНЯЯ ТЁМНАЯ ПОЛОСА
+======================================== */
+
+.tankRibbonItem::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 20px;
+
+    pointer-events: none;
+
+    background:
+
+        linear-gradient(180deg,
+            transparent,
+            rgba(0, 0, 0, 0.7));
+
+}
+
+
+/* ========================================
+   ТАНК
+======================================== */
+
+.tankRibbonImage {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 115px;
+    height: 78px;
+
+    object-fit: contain;
+
+    display: block;
+
+    pointer-events: none;
+
+    filter:
+
+        drop-shadow(0 7px 5px rgba(0, 0, 0, 0.75));
+
+    transition:
+
+        transform 0.2s ease,
+
+        filter 0.2s ease;
+
+}
+
+
+/* ========================================
+   НАВЕДЕНИЕ
+======================================== */
+
+.tankRibbonItem:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(199, 169, 75, 0.75);
+
+    background:
+
+        linear-gradient(145deg,
+            rgba(76, 78, 70, 0.98),
+            rgba(39, 41, 37, 0.99));
+
+    box-shadow:
+
+        0 5px 18px rgba(0, 0, 0, 0.5),
+
+        inset 0 0 18px rgba(190, 165, 75, 0.06);
+}
+
+
+.tankRibbonItem:hover .tankRibbonImage {
+
+    transform:
+        scale(1.07);
+
+    filter:
+
+        drop-shadow(0 8px 7px rgba(0, 0, 0, 0.85));
+}
+
+
+/* ========================================
+   ВЫБРАННЫЙ ТАНК
+======================================== */
+
+.tankRibbonItem.selected {
+
+    border:
+        2px solid #c7a94b;
+
+    box-shadow:
+
+        0 0 15px rgba(199, 169, 75, 0.35),
+
+        inset 0 0 18px rgba(199, 169, 75, 0.08);
+}
+
+
+/* ========================================
+   ЗОЛОТАЯ ПОЛОСА ВЫБРАННОГО ТАНКА
+======================================== */
+
+.tankRibbonItem.selected::after {
+
+    height: 3px;
+
+    background:
+        #c7a94b;
+
+    box-shadow:
+
+        0 0 8px rgba(199, 169, 75, 0.7);
+}
+
+/* ========================================
+   TANK SLOT INFORMATION
+======================================== */
+
+.tankRibbonTop {
+
+    position: absolute;
+
+    top: 7px;
+    left: 8px;
+    right: 8px;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    color: #8f9289;
+
+}
+
+
+/* ========================================
+   LEVEL
+======================================== */
+
+.tankRibbonLevel {
+
+    color: #c7a94b;
+
+    font-weight: bold;
+
+}
+
+
+/* ========================================
+   NATION
+======================================== */
+
+.tankRibbonNation {
+
+    color: #8e928a;
+
+    text-transform: uppercase;
+}
+
+
+/* ========================================
+   TANK NAME
+======================================== */
+
+.tankRibbonName {
+
+    position: absolute;
+
+    left: 5px;
+    right: 5px;
+
+    bottom: 6px;
+
+    z-index: 5;
+
+    text-align: center;
+
+    color: #d2d0c3;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        0 1px 3px #000;
+}
+
+/* ========================================
+   HANGAR BATTLE BUTTON
+======================================== */
+
+#hangarBattleButton {
+
+    position: fixed;
+
+    top: 32px;
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 200;
+
+}
+
+
+/* ========================================
+   BATTLE BUTTON
+======================================== */
+
+#battleButton {
+
+    width: 210px;
+    height: 52px;
+
+    border: 1px solid #bca85c;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(86, 76, 42, 0.98),
+            rgba(43, 39, 25, 0.98));
+
+    color: #e5d38b;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    cursor: pointer;
+
+    box-shadow:
+
+        0 4px 15px rgba(0, 0, 0, 0.45),
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+    transition:
+
+        transform 0.18s ease,
+        filter 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+
+#battleButton:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.15);
+
+    box-shadow:
+
+        0 6px 20px rgba(0, 0, 0, 0.55),
+
+        0 0 15px rgba(200, 175, 80, 0.18);
+}
+
+
+#battleButton:active {
+
+    transform:
+        translateY(1px);
+
+}
+
+#hangarBattleButton {
+    display: none;
+
+    position: fixed;
+
+    top: 32px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 200;
+}
+
+/* ========================================
+   BATTLE SCREEN
+======================================== */
+
+#battleScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    background: #000;
+
+    overflow: hidden;
+}
+
+
+#battleCanvas {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    background: #000;
+}
+
+/* ========================================
+   OPERATION SCREEN
+======================================== */
+
+#operationScreen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    background: #111;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* КАРТИНКА ЛОКАЦИИ */
+
+#operationLocation {
+    width: 500px;
+    height: 500px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#operationLocationImage {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* ЗАТЕМНЕНИЕ */
+
+#operationLocationOverlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.35);
+}
+
+
+/* ЗАГОЛОВОК */
+
+#operationLocationTitle {
+    position: absolute;
+
+    top: 30px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 32px;
+
+    letter-spacing: 8px;
+}
+
+
+/* НАЗВАНИЕ КАРТЫ */
+
+#operationLocationName {
+    position: absolute;
+
+    bottom: 30px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: white;
+
+    font-size: 26px;
+}
+
+
+/* НАЧАТЬ ОПЕРАЦИЮ */
+
+#startOperationButton {
+    margin-top: 30px;
+
+    padding: 16px 50px;
+
+    background: #252525;
+
+    border: 1px solid #777;
+
+    color: white;
+
+    font-size: 20px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+}
+
+
+#startOperationButton:hover {
+    background: #383838;
+
+    border-color: #d4af37;
+}
+
+#researchMoney img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.researchNode {
+    position: relative;
+}
+
+.researchCheck {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -27px;
+
+    transform: translateX(-50%);
+
+    width: 19px;
+    height: 19px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    background: #4a4d4b;
+
+    color: #bfc3c0;
+
+    opacity: 0;
+
+    transition:
+        color 0.2s,
+        background 0.2s,
+        opacity 0.2s;
+}
+
+
+/* Исследован */
+
+.researchNode.researched .researchCheck {
+
+    opacity: 1;
+
+}
+
+
+/* Установлен */
+
+.researchNode.installed .researchCheck {
+
+    background: #17351d;
+
+    color: #39d353;
+
+    opacity: 1;
+
+}
+
+.researchNode.installed {
+
+    background: #17351d;
+
+    border: 2px solid #39d353;
+
+    color: #d8ffe1;
+
+    box-shadow:
+        0 0 18px rgba(57, 211, 83, 0.35);
+
+}
+
+#tankUnlockPopup {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.78);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease;
+}
+
+
+/* Затемнение появляется */
+
+#tankUnlockPopup.active {
+
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* ========================================
+   ОКНО
+======================================== */
+
+.tankUnlockWindow {
+
+    position: relative;
+
+    width: 560px;
+
+    min-height: 420px;
+
+    box-sizing: border-box;
+
+    padding: 45px 55px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(145deg,
+            #30352f,
+            #151816 45%,
+            #0d0f0e);
+
+    border:
+        1px solid #59625a;
+
+    box-shadow:
+
+        0 0 0 1px rgba(0, 0, 0, 0.8),
+
+        0 0 35px rgba(57, 211, 83, 0.18),
+
+        0 30px 80px rgba(0, 0, 0, 0.8);
+
+    transform:
+        scale(0.72) translateY(30px);
+
+    opacity: 0;
+
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.4s ease;
+}
+
+
+#tankUnlockPopup.active .tankUnlockWindow {
+
+    transform:
+        scale(1) translateY(0);
+
+    opacity: 1;
+}
+
+
+/* ========================================
+   ВЕРХНЯЯ ПОЛОСА
+======================================== */
+
+.tankUnlockWindow::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 14px;
+    left: 18px;
+    right: 18px;
+
+    height: 2px;
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #39d353,
+            transparent);
+
+    box-shadow:
+        0 0 12px rgba(57, 211, 83, 0.8);
+}
+
+
+/* ========================================
+   ЗНАЧОК
+======================================== */
+
+.tankUnlockIcon {
+
+    width: 82px;
+    height: 82px;
+
+    margin-bottom: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        #17351d;
+
+    border:
+        2px solid #39d353;
+
+    color: #39d353;
+
+    font-size: 42px;
+
+    box-shadow:
+        0 0 25px rgba(57, 211, 83, 0.45);
+
+    animation:
+        unlockIconPulse 1.8s ease-in-out infinite;
+}
+
+
+@keyframes unlockIconPulse {
+
+    0%,
+    100% {
+
+        box-shadow:
+            0 0 18px rgba(57, 211, 83, 0.3);
+
+        transform:
+            scale(1);
+    }
+
+    50% {
+
+        box-shadow:
+            0 0 38px rgba(57, 211, 83, 0.7);
+
+        transform:
+            scale(1.06);
+    }
+}
+
+
+/* ========================================
+   ТЕКСТ
+======================================== */
+
+.tankUnlockSmall {
+
+    color: #8d958c;
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 10px;
+}
+
+
+.tankUnlockTitle {
+
+    color: #e5e8df;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    letter-spacing: 6px;
+
+    margin-bottom: 18px;
+
+    text-shadow:
+        0 0 15px rgba(57, 211, 83, 0.25);
+}
+
+
+.tankUnlockName {
+
+    color: #39d353;
+
+    font-size: 38px;
+
+    font-weight: bold;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 8px;
+
+    text-shadow:
+        0 0 20px rgba(57, 211, 83, 0.45);
+}
+
+
+.tankUnlockDescription {
+
+    color: #777e76;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 30px;
+}
+
+
+/* ========================================
+   КНОПКА
+======================================== */
+
+#tankUnlockButton {
+
+    width: 220px;
+
+    height: 48px;
+
+    border:
+        1px solid #39d353;
+
+    background:
+        rgba(23, 53, 29, 0.65);
+
+    color: #39d353;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#tankUnlockButton:hover {
+
+    background:
+        rgba(57, 211, 83, 0.18);
+
+    box-shadow:
+        0 0 20px rgba(57, 211, 83, 0.35);
+
+    transform:
+        translateY(-2px);
+}
+
+.nextTankLock {
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto;
+
+    font-size: 38px;
+
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease,
+        filter 0.3s ease;
+}
+
+
+/* Картинка танка */
+
+.nextTankImage {
+    width: 95px;
+    height: 95px;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    transform:
+        scale(0.45) rotate(-8deg);
+
+    filter:
+        drop-shadow(0 0 0 rgba(57, 211, 83, 0));
+
+    animation:
+        tankCardAppear 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+/* Появление BT-5 */
+
+@keyframes tankCardAppear {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(0.45) rotate(-8deg);
+
+        filter:
+            drop-shadow(0 0 0 rgba(57, 211, 83, 0));
+    }
+
+    55% {
+        opacity: 1;
+
+        transform:
+            scale(1.12) rotate(3deg);
+
+        filter:
+            drop-shadow(0 0 18px rgba(57, 211, 83, 0.65));
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1) rotate(0deg);
+
+        filter:
+            drop-shadow(0 0 10px rgba(57, 211, 83, 0.25));
+    }
+}
+
+
+/* ========================================
+   СБРАСЫВАНИЕ ЗАМКА
+======================================== */
+
+.nextTankLock.unlocking {
+
+    animation:
+        lockBreak 0.65s ease-in forwards;
+}
+
+
+@keyframes lockBreak {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            scale(1) rotate(0deg);
+    }
+
+    20% {
+        transform:
+            scale(1.08) rotate(-5deg);
+    }
+
+    35% {
+        transform:
+            scale(0.95) rotate(6deg);
+    }
+
+    50% {
+        transform:
+            scale(1.08) rotate(-4deg);
+    }
+
+    70% {
+        opacity: 0.7;
+
+        transform:
+            scale(0.8) rotate(8deg);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            scale(0.1) rotate(25deg);
+    }
+}
+
+
+/* Когда танк уже открыт */
+
+.nextTankLock.tankUnlocked {
+
+    font-size: 0;
+
+    opacity: 1;
+}
+
+#buyNextTankButton {
+
+    width: 175px;
+    height: 42px;
+
+    margin: 12px auto 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    box-sizing: border-box;
+
+    padding: 0 12px;
+
+    /* металлический корпус */
+    background:
+        linear-gradient(180deg,
+            #4b514f 0%,
+            #343a38 45%,
+            #252a28 100%);
+
+    border: 1px solid #737a76;
+
+    border-radius: 3px;
+
+    /* лёгкая внутренняя грань */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.45),
+        0 3px 8px rgba(0, 0, 0, 0.55);
+
+    color: #d9ddd8;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.12s ease;
+
+}
+
+
+/* =========================================
+   НАВЕДЕНИЕ
+   ========================================= */
+
+#buyNextTankButton:hover {
+
+    background:
+        linear-gradient(180deg,
+            #59605d 0%,
+            #3c4340 45%,
+            #292e2c 100%);
+
+    border-color: #a3aaa5;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.45),
+        0 4px 10px rgba(0, 0, 0, 0.6);
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================
+   НАЖАТИЕ
+   ========================================= */
+
+#buyNextTankButton:active {
+
+    transform:
+        translateY(1px);
+
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.4),
+        0 1px 3px rgba(0, 0, 0, 0.5);
+
+}
+
+
+/* =========================================
+   ИКОНКА
+   ========================================= */
+
+.nextTankButtonIcon {
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    border: 1px solid #626965;
+
+    border-radius: 2px;
+
+    background:
+        linear-gradient(180deg,
+            #3c4340,
+            #242927);
+
+    color: #c8cdc8;
+
+    font-size: 12px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+
+}
+
+
+/* =========================================
+   ЦЕНА
+   ========================================= */
+
+.nextTankButtonPrice {
+
+    min-width: 42px;
+
+    padding: 4px 6px;
+
+    box-sizing: border-box;
+
+    border-left: 1px solid #666d69;
+
+    color: #d2b85b;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-align: center;
+
+}
+
+#buyNextTankButton.owned {
+
+    background:
+        linear-gradient(180deg,
+            #36523b 0%,
+            #293e2d 45%,
+            #1d2c21 100%);
+
+    border-color: #66846b;
+
+    color: #d9e5da;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.10),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+        0 3px 8px rgba(0, 0, 0, 0.55);
+
+}
+
+
+/* =========================================
+   ПЕРЕЙТИ — НАВЕДЕНИЕ
+   ========================================= */
+
+#buyNextTankButton.owned:hover {
+
+    background:
+        linear-gradient(180deg,
+            #426348 0%,
+            #304936 45%,
+            #223326 100%);
+
+    border-color: #8aa58e;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.13),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+        0 4px 10px rgba(0, 0, 0, 0.6);
+
+    transform: translateY(-1px);
+
+}
+
+#tankRibbonList {
+    scrollbar-width: thin;
+    scrollbar-color: #4b504d #171a18;
+}
+
+/* Chrome / Edge / Opera */
+
+#tankRibbonList::-webkit-scrollbar {
+    width: 0;
+    height: 7px;
+}
+
+#tankRibbonList::-webkit-scrollbar-track {
+    background: #171a18;
+    border: 1px solid #353a36;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+#tankRibbonList::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg,
+            #505550 0%,
+            #3c413d 50%,
+            #2b302d 100%);
+
+    border: 1px solid #666b66;
+    border-radius: 2px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+#tankRibbonList::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg,
+            #5b605b 0%,
+            #444944 50%,
+            #303530 100%);
+
+    border-color: #777c76;
+}
+
+#tankRibbonList::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#minimapContainer {
+    position: fixed;
+
+    right: 25px;
+    bottom: 25px;
+
+    width: 240px;
+    height: 240px;
+
+    background: #111;
+
+    border: 3px solid rgba(255, 255, 255, 0.7);
+
+    box-shadow:
+        0 0 10px rgba(0, 0, 0, 0.8);
+
+    z-index: 1000;
+
+    overflow: hidden;
+}
+
+#minimapCanvas {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+}
+
+#buildHedgehogButton {
+    position: relative;
+    font-size: 16px;
+}
+
+#hedgehogCount {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+#buildHouseButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+#houseCount {
+    position: absolute;
+    right: 20px;
+    bottom: 12px;
+    font-size: 18px;
+}
+
+#allyPanel {
+
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+    right: 250px;
+
+    height: 150px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+
+    padding: 8px;
+
+    background:
+        linear-gradient(180deg,
+            rgba(55, 60, 56, 0.98),
+            rgba(20, 23, 21, 0.99));
+
+    border-top: 3px solid #287328;
+    border-right: 3px solid #287328;
+
+    box-shadow:
+        0 -5px 20px rgba(0, 0, 0, 0.65);
+
+    z-index: 1001;
+
+    font-family: Arial, sans-serif;
+}
+
+
+/* ========================================
+   СТРЕЛКИ
+======================================== */
+
+.allyArrow {
+
+    flex: 0 0 45px;
+
+    height: 130px;
+
+    border: none;
+
+    background:
+        rgba(35, 42, 36, 0.9);
+
+    color: #bfc4b8;
+
+    font-size: 48px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+
+.allyArrow:hover {
+
+    background:
+        rgba(55, 75, 58, 0.95);
+
+    color: #8cff8c;
+}
+
+
+/* ========================================
+   СПИСОК ТАНКОВ
+======================================== */
+
+#allyTankList {
+
+    flex: 1;
+
+    height: 130px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 10px;
+
+    padding: 0 10px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* ========================================
+   КАРТОЧКА ТАНКА
+======================================== */
+
+.allyTankSlot {
+
+    position: relative;
+
+    flex: 0 0 125px;
+
+    height: 130px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(145deg,
+            rgba(48, 53, 49, 0.98),
+            rgba(20, 23, 21, 0.98));
+
+    border:
+        2px solid rgba(150, 155, 145, 0.35);
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+.allyTankSlot:hover {
+
+    border-color: #7cff7c;
+
+    background:
+        rgba(55, 70, 57, 0.98);
+
+    transform: translateY(-2px);
+}
+
+
+/* ========================================
+   УРОВЕНЬ
+======================================== */
+
+.allyTankLevel {
+
+    position: absolute;
+
+    top: 6px;
+    left: 8px;
+
+    color: #c7a94b;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+}
+
+
+/* ========================================
+   ИКОНКА
+======================================== */
+
+.allyTankIcon {
+
+    width: 95px;
+    height: 75px;
+
+    object-fit: contain;
+
+    display: block;
+
+    transform: rotate(90deg);
+
+    filter:
+        drop-shadow(0 5px 6px rgba(0, 0, 0, 0.7));
+}
+
+
+/* ========================================
+   НАЗВАНИЕ
+======================================== */
+
+.allyTankName {
+
+    position: absolute;
+
+    left: 3px;
+    right: 3px;
+
+    bottom: 22px;
+
+    text-align: center;
+
+    color: #d2d0c3;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 1px 3px #000;
+}
+
+
+/* ========================================
+   ЦЕНА
+======================================== */
+
+.allyTankPrice {
+
+    position: absolute;
+
+    right: 7px;
+    bottom: 5px;
+
+    color: #d2b85b;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 1px 3px #000;
+}
+
+
+/* ========================================
+   ОЧКИ ПОДКРЕПЛЕНИЯ
+======================================== */
+
+#allyPointsPanel {
+
+    flex: 0 0 155px;
+
+    height: 130px;
+
+    margin-left: 8px;
+
+    box-sizing: border-box;
+
+    border:
+        2px solid rgba(150, 155, 145, 0.35);
+
+    background:
+        linear-gradient(145deg,
+            rgba(45, 50, 46, 0.98),
+            rgba(20, 23, 21, 0.99));
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+#allyPointsTitle {
+
+    color: #8d9189;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 8px;
+
+    text-align: center;
+}
+
+
+#allyPointsValue {
+
+    color: #d2b85b;
+
+    font-size: 32px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 2px 5px #000;
+}
+
+#returnToHangarButton {
+    position: fixed;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+
+    padding: 16px 45px;
+
+    background: #3b3b3b;
+    color: #ffffff;
+
+    border: 2px solid #777;
+    border-radius: 4px;
+
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+
+    z-index: 10000;
+
+    display: none;
+}
+
+#returnToHangarButton:hover {
+    background: #505050;
+    border-color: #aaa;
+}
+
+#returnToHangarButton:active {
+    background: #292929;
+}
+
+#tankSwitchPanel {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    width: 360px;
+
+    padding: 12px 16px;
+
+    background: rgba(20, 24, 22, 0.94);
+
+    border: 1px solid rgba(180, 190, 180, 0.35);
+
+    box-shadow:
+        0 6px 25px rgba(0, 0, 0, 0.55);
+
+    z-index: 10000;
+
+    display: none;
+
+    box-sizing: border-box;
+}
+
+.tank-switch-title {
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    color: #d6d6d6;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 10px;
+}
+
+.tank-switch-selector {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+#tankSwitchLeft,
+#tankSwitchRight {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid #666;
+
+    background: #252925;
+
+    color: #ddd;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+#tankSwitchLeft:hover,
+#tankSwitchRight:hover {
+    background: #353b35;
+}
+
+#tankSwitchInfo {
+    flex: 1;
+
+    text-align: center;
+}
+
+#tankSwitchName {
+    font-size: 16px;
+
+    font-weight: bold;
+
+    color: #e6e6e6;
+}
+
+#tankSwitchHp {
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: #aaa;
+}
+
+#takeControlButton {
+    display: block;
+
+    width: 210px;
+
+    height: 36px;
+
+    margin: 12px auto 0;
+
+    border: 1px solid #777;
+
+    background: #303630;
+
+    color: #eee;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#takeControlButton:hover {
+    background: #414941;
+}
+
+#defeatScreen {
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.78);
+
+    z-index: 9999;
+
+}
+
+
+/* ========================================
+   ЗАГОЛОВОК
+======================================== */
+
+#defeatTitle {
+
+    font-size: 64px;
+
+    font-weight: 900;
+
+    letter-spacing: 8px;
+
+    color: #c62828;
+
+    text-shadow:
+        0 0 10px rgba(0, 0, 0, 0.9),
+        0 0 25px rgba(198, 40, 40, 0.5);
+
+    margin-bottom: 20px;
+
+}
+
+
+/* ========================================
+   ТЕКСТ
+======================================== */
+
+#defeatText {
+
+    font-size: 18px;
+
+    letter-spacing: 3px;
+
+    color: #d6d6d6;
+
+    margin-bottom: 45px;
+
+}
+
+
+/* ========================================
+   КНОПКА
+======================================== */
+
+#defeatHangarButton {
+
+    width: 220px;
+
+    height: 55px;
+
+    border: 2px solid #777;
+
+    background: #202020;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+
+}
+
+
+#defeatHangarButton:hover {
+
+    background: #333;
+
+    border-color: #aaa;
+
+}
+
+
+#hangarTankStats {
+
+    position: fixed;
+
+    right: 45px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 330px;
+    min-height: 360px;
+
+    padding: 22px;
+
+    box-sizing: border-box;
+
+    z-index: 140;
+
+    display: none;
+
+    background:
+        linear-gradient(145deg,
+            rgba(42, 45, 42, 0.96),
+            rgba(13, 15, 14, 0.98));
+
+    border:
+        1px solid rgba(180, 175, 145, 0.45);
+
+    box-shadow:
+
+        0 12px 35px rgba(0, 0, 0, 0.65),
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+
+        inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+
+    color: #d2d0c3;
+
+}
+
+
+/* внутренняя рамка */
+
+#hangarTankStats::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 5px;
+
+    pointer-events: none;
+
+    border:
+        1px solid rgba(120, 120, 105, 0.18);
+
+}
+
+
+/* ========================================
+   ЗАГОЛОВОК
+======================================== */
+
+.hangarStatsHeader {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 12px;
+
+    margin-bottom: 15px;
+
+    border-bottom:
+        1px solid rgba(199, 169, 75, 0.3);
+
+}
+
+
+.hangarStatsTitle {
+
+    color: #c7a94b;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+}
+
+
+#hangarStatsTankName {
+
+    color: #e0ded2;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+}
+
+
+/* ========================================
+   ХАРАКТЕРИСТИКИ
+======================================== */
+
+.hangarStatsGrid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    column-gap: 20px;
+
+    row-gap: 8px;
+
+}
+
+
+.hangarStat {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    min-height: 32px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+
+}
+
+
+.hangarStat span {
+
+    color: #777d76;
+
+    font-size: 9px;
+
+    letter-spacing: 0.8px;
+
+}
+
+
+.hangarStat b {
+
+    color: #d8d6c9;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+/* ========================================
+   МОДУЛИ
+======================================== */
+
+.hangarModules {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid rgba(199, 169, 75, 0.25);
+
+}
+
+
+.hangarModules span {
+
+    color: #777d76;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.hangarModules b {
+
+    color: #c7a94b;
+
+    font-size: 11px;
+
+    margin-left: 5px;
+
+}
+
+#mainMenu {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+}
+
+#mainMenuOverlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 40%,
+            #1c211d 0%, #10130f 55%, #060705 100%);
+}
+
+#mainMenuContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#mainMenuTitle {
+    font-size: 62px;
+    font-weight: 900;
+    letter-spacing: 10px;
+    color: #d8d6c9;
+    text-shadow: 0 0 25px rgba(199, 169, 75, 0.35);
+}
+
+#mainMenuTitle span {
+    color: #c7a94b;
+}
+
+#mainMenuSubtitle {
+    margin-top: 10px;
+    margin-bottom: 55px;
+    font-size: 14px;
+    letter-spacing: 6px;
+    color: #767c74;
+}
+
+#mainMenuButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+}
+
+.mainMenuButton {
+    height: 56px;
+    border: 1px solid rgba(180, 175, 145, 0.4);
+    background:
+        linear-gradient(180deg,
+            rgba(55, 58, 54, 0.95), rgba(25, 27, 25, 0.98));
+    color: #d2d0c3;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    cursor: pointer;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition:
+        transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mainMenuButton:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.mainMenuButton:active {
+    transform: translateY(1px);
+}
+
+.mainMenuButtonPrimary {
+    border-color: #c7a94b;
+    background:
+        linear-gradient(180deg,
+            rgba(86, 76, 42, 0.98), rgba(43, 39, 25, 0.98));
+    color: #e5d38b;
+}
+
+.mainMenuButtonDanger {
+    border-color: rgba(198, 40, 40, 0.5);
+    color: #d78888;
+}
+
+.mainMenuButtonDanger:hover {
+    border-color: #c62828;
+    color: #ff9a9a;
+}
+
+/* ========================================
+   МОДАЛЬНЫЕ ОКНА
+======================================== */
+
+#settingsModal,
+#resetConfirmModal {
+    position: fixed;
+    inset: 0;
+    z-index: 600;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.75);
+    font-family: Arial, sans-serif;
+}
+
+#settingsModalWindow,
+#resetConfirmWindow {
+    width: 380px;
+    box-sizing: border-box;
+    padding: 30px;
+    background: linear-gradient(145deg, #2a2d2a, #101110);
+    border: 1px solid rgba(180, 175, 145, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+#settingsModalTitle,
+#resetConfirmTitle {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #c7a94b;
+    margin-bottom: 18px;
+}
+
+#resetConfirmTitle {
+    color: #c62828;
+}
+
+#resetConfirmText {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #b7b7b0;
+    margin-bottom: 25px;
+}
+
+#settingsModalClose {
+    margin-top: 20px;
+    width: 100%;
+    height: 42px;
+    border: 1px solid #777;
+    background: #252525;
+    color: white;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#settingsModalClose:hover {
+    background: #383838;
+}
+
+#resetConfirmButtons {
+    display: flex;
+    gap: 12px;
+}
+
+#resetConfirmCancel,
+#resetConfirmYes {
+    flex: 1;
+    height: 44px;
+    border: 1px solid #777;
+    background: #252525;
+    color: white;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+#resetConfirmYes {
+    border-color: #c62828;
+    color: #ff9a9a;
+}
+
+#resetConfirmYes:hover {
+    background: #3a1f1f;
+}
+
+#resetConfirmCancel:hover {
+    background: #383838;
+}
+
+#battleScreen {
+    cursor: none;
+}
+
+#battleScreen * {
+    cursor: none !important;
+}
+
+/* Не перехватываем события мыши игровым холстом HUD */
+#battleInfoPanel,
+#minimapContainer {
+    pointer-events: none;
+}
+
+#battleScreen,
+#battleScreen * {
+    cursor:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cg fill='none' stroke='%23000' stroke-width='4' stroke-linecap='round'%3E%3Cpath d='M18 2v8 M18 26v8 M2 18h8 M26 18h8'/%3E%3Ccircle cx='18' cy='18' r='8'/%3E%3C/g%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M18 2v8 M18 26v8 M2 18h8 M26 18h8'/%3E%3Ccircle cx='18' cy='18' r='8'/%3E%3C/g%3E%3Ccircle cx='18' cy='18' r='1.5' fill='%23ffce55'/%3E%3C/svg%3E") 18 18,
+        crosshair !important;
+}
+
+body:not(.battle-cursor),
+body:not(.battle-cursor) * {
+    cursor: url("Krita1/klick.png") 10 3, auto !important;
+}

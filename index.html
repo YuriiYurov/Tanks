@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tank Game 2.0</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ========================================
+        РЕЖИМ СТРОИТЕЛЬСТВА
+        ======================================== */
+
+        #constructionPanel {
+            position: fixed;
+
+            top: 0;
+            right: 0;
+
+            width: 250px;
+            height: 100vh;
+
+            box-sizing: border-box;
+
+            background:
+                linear-gradient(rgba(20, 25, 20, 0.96),
+                    rgba(10, 15, 10, 0.96));
+
+            border-left: 4px solid #244d24;
+
+            display: none;
+
+            flex-direction: column;
+
+            padding: 8px;
+
+            z-index: 1000;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* ========================================
+        ВЕРХНЯЯ ИНФОРМАЦИЯ
+        ======================================== */
+
+        #constructionInfo {
+
+            height: 135px;
+
+            border: 3px solid #287328;
+
+            box-sizing: border-box;
+
+            padding: 15px;
+
+            margin-bottom: 6px;
+
+            text-align: center;
+
+        }
+
+
+        .constructionTitle {
+
+            color: #6cff6c;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .constructionName {
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* ========================================
+        ПРЕДМЕТЫ
+        ======================================== */
+
+        .constructionItem {
+
+            width: 100%;
+
+            height: 140px;
+
+            margin-bottom: 8px;
+
+            background:
+                rgba(25, 35, 25, 0.95);
+
+            border: 3px solid #287328;
+
+            color: white;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 18px;
+
+            box-sizing: border-box;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        .constructionItem:hover {
+
+            background:
+                rgba(45, 65, 45, 0.98);
+
+            border-color: #52b952;
+
+        }
+
+
+        .constructionItem.selected {
+
+            border-color: #7cff7c;
+
+            box-shadow:
+                0 0 12px rgba(100, 255, 100, 0.45);
+
+        }
+
+
+        .constructionItem b {
+
+            font-size: 24px;
+
+            color: #8cff8c;
+
+        }
+
+
+        /* ========================================
+        ЗАБЛОКИРОВАННЫЙ ПРЕДМЕТ
+        ======================================== */
+
+        .constructionItem.disabled {
+
+            opacity: 0.35;
+
+            cursor: default;
+
+        }
+
+
+        /* ========================================
+        КНОПКА В БОЙ
+        ======================================== */
+
+        .finishConstruction {
+
+            margin-top: auto;
+
+            width: 100%;
+
+            height: 100px;
+
+            border: 4px solid #287328;
+
+            background:
+                rgba(30, 55, 30, 0.98);
+
+            color: white;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .finishConstruction:hover {
+
+            background:
+                rgba(50, 90, 50, 1);
+
+            border-color: #65d565;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="mainMenu">
+        <div id="mainMenuOverlay"></div>
+
+        <div id="mainMenuContent">
+            <div id="mainMenuTitle">TANK<span>WAR</span></div>
+            <div id="mainMenuSubtitle">ОБОРОНА ДЕРЕВНИ</div>
+
+            <div id="mainMenuButtons">
+                <button id="mainMenuPlayButton" class="mainMenuButton mainMenuButtonPrimary">
+                    В БОЙ
+                </button>
+
+                <button id="mainMenuSettingsButton" class="mainMenuButton">
+                    НАСТРОЙКИ
+                </button>
+
+                <button id="mainMenuResetButton" class="mainMenuButton mainMenuButtonDanger">
+                    СБРОС ПРОГРЕССА
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsModal">
+        <div id="settingsModalWindow">
+            <div id="settingsModalTitle">НАСТРОЙКИ</div>
+
+            <div id="settingsModalBody">
+                <p style="color:#8d9189; font-size:13px; letter-spacing:1px;">
+                    Здесь позже появятся настройки звука и графики.
+                </p>
+            </div>
+
+            <button id="settingsModalClose">ЗАКРЫТЬ</button>
+        </div>
+    </div>
+
+    <div id="resetConfirmModal">
+        <div id="resetConfirmWindow">
+            <div id="resetConfirmTitle">СБРОСИТЬ ПРОГРЕСС?</div>
+            <div id="resetConfirmText">
+                Все купленные танки, исследования и золото будут удалены безвозвратно.
+            </div>
+
+            <div id="resetConfirmButtons">
+                <button id="resetConfirmCancel">ОТМЕНА</button>
+                <button id="resetConfirmYes">СБРОСИТЬ</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hangarMenu">
+
+        <div id="scroll">
+
+            <!-- ВЕРХНИЙ ФУТЛЯР -->
+            <div id="topScroll">
+
+                <img src="Krita1/menuButton.png" alt="Меню">
+
+            </div>
+
+
+            <!-- БУМАГА + ТЕКСТ -->
+            <div id="scrollPaper">
+
+                <img src="Krita1/menuOpenButton.png" alt="Меню">
+
+                <div id="scrollButtons">
+
+                    <button id="researchButton">
+                        ИССЛЕДОВАНИЕ
+                    </button>
+
+                    <button id="vehiclesButton">
+                        ТЕХНИКА
+                    </button>
+
+                    <button id="equipmentButton">
+                        СНАРЯЖЕНИЕ
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- НИЖНИЙ ФУТЛЯР -->
+            <div id="bottomScroll">
+
+                <img src="Krita1/menuButton.png" alt="Меню">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="researchScreen">
+
+        <!-- TOP BAR -->
+
+        <div id="researchTopBar">
+
+            <button id="researchBack">
+                ← НАЗАД
+            </button>
+
+            <div id="researchTitle">
+                ИССЛЕДОВАНИЕ
+            </div>
+
+            <div id="researchMoney">
+                <img src="Krita1/money.png" alt="Деньги">
+                <span id="moneyValue">500</span>
+            </div>
+
+        </div>
+
+
+        <!-- MAIN AREA -->
+
+        <div id="researchMain">
+
+
+            <!-- ==================================
+             CURRENT TANK
+        ================================== -->
+
+            <div id="currentTankPanel">
+
+                <div class="panelLabel">
+                    ТЕКУЩАЯ МАШИНА
+                </div>
+
+                <div id="tankLevel">
+                    УРОВЕНЬ I
+                </div>
+
+                <div id="tankImagePlaceholder">
+
+                    <img id="researchTankImage" src="Krita1/t26.png" alt="T-26">
+
+                </div>
+
+                <div id="tankName">
+                    T-26
+                </div>
+
+                <div id="tankType">
+                    ЛЁГКИЙ ТАНК
+                </div>
+
+                <div id="tankStats">
+
+                    <div>
+                        <span>ПРОЧНОСТЬ</span>
+                        <b>100</b>
+                    </div>
+
+                    <div>
+                        <span>СКОРОСТЬ</span>
+                        <b>45</b>
+                    </div>
+
+                    <div>
+                        <span>УРОН</span>
+                        <b>35</b>
+                    </div>
+
+                </div>
+
+                <button id="buyTankButton">
+                    КУПИТЬ — 300 🪙
+                </button>
+
+                <div id="nationNavigation">
+
+                    <button id="nationUp" class="nationArrow">
+                        ▲
+                    </button>
+
+                    <div id="nationName">
+                        СССР
+                    </div>
+
+                    <button id="nationDown" class="nationArrow">
+                        ▼
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==================================
+             RESEARCH TREE
+        ================================== -->
+
+            <div id="researchTree">
+
+
+                <!-- GUN -->
+
+                <div class="researchRow">
+
+                    <div class="rowTitle">
+                        ПУШКА
+                    </div>
+
+                    <div class="nodes">
+
+                        <div class="researchNode completed">
+                            <span class="moduleLevel">I</span>
+                            <span class="modulePrice">БАЗА</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode available">
+                            <span class="moduleLevel">II</span>
+                            <span class="modulePrice">100 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">III</span>
+                            <span class="modulePrice">250 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">IV</span>
+                            <span class="modulePrice">500 🪙</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TURRET -->
+
+                <div class="researchRow">
+
+                    <div class="rowTitle">
+                        БАШНЯ
+                    </div>
+
+                    <div class="nodes">
+
+                        <div class="researchNode completed">
+                            <span class="moduleLevel">I</span>
+                            <span class="modulePrice">БАЗА</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode available">
+                            <span class="moduleLevel">II</span>
+                            <span class="modulePrice">100 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">III</span>
+                            <span class="modulePrice">250 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">IV</span>
+                            <span class="modulePrice">500 🪙</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ENGINE -->
+
+
+                <div class="researchRow">
+
+                    <div class="rowTitle">
+                        ДВИГАТЕЛЬ
+                    </div>
+
+                    <div class="nodes">
+
+                        <!-- УРОВЕНЬ I -->
+
+                        <div class="researchNode completed">
+
+                            <span class="moduleLevel">
+                                I
+                            </span>
+
+                            <span class="modulePrice">
+                                БАЗА
+                            </span>
+
+                        </div>
+
+
+                        <div class="researchLine"></div>
+
+
+                        <!-- УРОВЕНЬ II -->
+
+                        <div class="researchNode available">
+
+                            <span class="moduleLevel">
+                                II
+                            </span>
+
+                            <span class="modulePrice">
+                                100 🪙
+                            </span>
+
+                        </div>
+
+
+                        <div class="researchLine"></div>
+
+
+                        <!-- УРОВЕНЬ III -->
+
+                        <div class="researchNode locked">
+
+                            <span class="moduleLevel">
+                                III
+                            </span>
+
+                            <span class="modulePrice">
+                                250 🪙
+                            </span>
+
+                        </div>
+
+
+                        <div class="researchLine"></div>
+
+
+                        <!-- УРОВЕНЬ IV -->
+
+                        <div class="researchNode locked">
+
+                            <span class="moduleLevel">
+                                IV
+                            </span>
+
+                            <span class="modulePrice">
+                                500 🪙
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRACKS -->
+
+                <div class="researchRow">
+
+                    <div class="rowTitle">
+                        ХОДОВАЯ
+                    </div>
+
+                    <div class="nodes">
+
+                        <div class="researchNode completed">
+                            <span class="moduleLevel">I</span>
+                            <span class="modulePrice">БАЗА</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode available">
+                            <span class="moduleLevel">II</span>
+                            <span class="modulePrice">100 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">III</span>
+                            <span class="modulePrice">250 🪙</span>
+                        </div>
+
+                        <div class="researchLine"></div>
+
+                        <div class="researchNode locked">
+                            <span class="moduleLevel">IV</span>
+                            <span class="modulePrice">500 🪙</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- NEXT TANK -->
+
+                <div id="nextTank">
+
+                    <div class="nextTankLock">
+                        🔒
+                    </div>
+
+                    <div class="nextTankName">
+                        BT-5
+                    </div>
+
+                    <div class="nextTankText">
+                        ЗАВЕРШИТЕ ИССЛЕДОВАНИЕ<br>
+                        ВСЕХ МОДУЛЕЙ
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="hangarBattleButton">
+
+        <button id="battleButton">
+            В БОЙ
+        </button>
+
+    </div>
+
+
+    <div id="hangarTankRibbon">
+
+        <div id="tankRibbonList"></div>
+
+    </div>
+
+    <div id="hangarTankStats">
+
+        <div class="hangarStatsHeader">
+
+            <div class="hangarStatsTitle">
+                ХАРАКТЕРИСТИКИ
+            </div>
+
+            <div id="hangarStatsTankName">
+                T-26
+            </div>
+
+        </div>
+
+
+        <div class="hangarStatsGrid">
+
+            <div class="hangarStat">
+                <span>ПРОЧНОСТЬ</span>
+                <b id="statHp">100</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>УРОН</span>
+                <b id="statDamage">35</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>СКОРОСТЬ</span>
+                <b id="statSpeed">80</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>ЗАДНИЙ ХОД</span>
+                <b id="statReverseSpeed">40</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>ПОВОРОТ КОРПУСА</span>
+                <b id="statHullTurn">2.20</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>ПОВОРОТ БАШНИ</span>
+                <b id="statTurretTurn">2.50</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>СКОРОСТЬ СНАРЯДА</span>
+                <b id="statShellSpeed">500</b>
+            </div>
+
+            <div class="hangarStat">
+                <span>ПЕРЕЗАРЯДКА</span>
+                <b id="statReload">1.50 с</b>
+            </div>
+
+        </div>
+
+
+        <div class="hangarModules">
+
+            <span>
+                ОРУДИЕ <b id="moduleGunLevel">I</b>
+            </span>
+
+            <span>
+                БАШНЯ <b id="moduleTurretLevel">I</b>
+            </span>
+
+            <span>
+                ДВИГАТЕЛЬ <b id="moduleEngineLevel">I</b>
+            </span>
+
+            <span>
+                ХОДОВАЯ <b id="moduleTracksLevel">I</b>
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================
+     OPERATION SCREEN
+    ======================================== -->
+
+    <div id="operationScreen">
+
+        <div id="operationLocation">
+
+            <img id="operationLocationImage" src="" alt="">
+
+            <div id="operationLocationOverlay"></div>
+
+            <div id="operationLocationTitle">
+                ОПЕРАЦИЯ
+            </div>
+
+            <div id="operationLocationName">
+            </div>
+
+        </div>
+
+
+        <button id="startOperationButton">
+            НАЧАТЬ ОПЕРАЦИЮ
+        </button>
+
+    </div>
+
+
+    <!-- ========================================
+     BATTLE SCREEN
+    ======================================== -->
+
+    <div id="battleScreen">
+
+        <canvas id="battleCanvas"></canvas>
+
+        <!-- ========================================
+         ПАНЕЛЬ СТРОИТЕЛЬСТВА
+    ======================================== -->
+
+        <div id="constructionPanel">
+
+            <div id="constructionInfo">
+                <div class="constructionTitle">
+                    ОПЕРАЦИЯ
+                </div>
+
+                <div class="constructionName">
+                    ОБОРОНА ДЕРЕВНИ
+                </div>
+            </div>
+
+
+            <button id="buildHouseButton" class="constructionItem">
+                <span>ДОМА</span>
+                <b id="houseCount">×6</b>
+            </button>
+
+
+            <button id="buildHedgehogButton" class="constructionItem">
+                <span>ПРОТИВОТАНКОВЫЕ ЕЖИ</span>
+                <b id="hedgehogCount">×16</b>
+            </button>
+
+
+            <button id="finishConstructionButton" class="finishConstruction">
+                В БОЙ!
+            </button>
+
+        </div>
+
+        <div id="allyPanel">
+
+            <button id="allyArrowLeft" class="allyArrow">
+                ‹
+            </button>
+
+            <div id="allyTankList">
+                <!-- сюда JS будет вставлять танки -->
+            </div>
+
+            <button id="allyArrowRight" class="allyArrow">
+                ›
+            </button>
+
+            <div id="allyPointsPanel">
+
+                <div id="allyPointsTitle">
+                    ПОДКРЕПЛЕНИЯ
+                </div>
+
+                <div id="allyPointsValue">
+                    ★ <span id="allyPoints">6</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="tankSwitchPanel">
+
+            <div class="tank-switch-title">
+                ВЫБОР ТАНКА
+            </div>
+
+            <div class="tank-switch-selector">
+
+                <button id="tankSwitchLeft">
+                    ◀
+                </button>
+
+                <div id="tankSwitchInfo">
+
+                    <div id="tankSwitchName">
+                        СОЮЗНЫЙ ТАНК
+                    </div>
+
+                    <div id="tankSwitchHp">
+                        HP: 100%
+                    </div>
+
+                </div>
+
+                <button id="tankSwitchRight">
+                    ▶
+                </button>
+
+            </div>
+
+            <button id="takeControlButton">
+                УПРАВЛЯТЬ ТАНКОМ
+            </button>
+
+        </div>
+
+        <div id="defeatScreen">
+
+            <div id="defeatTitle">
+                ПОРАЖЕНИЕ
+            </div>
+
+            <div id="defeatText">
+                ВСЕ СОЮЗНЫЕ ТАНКИ УНИЧТОЖЕНЫ
+            </div>
+
+            <button id="defeatHangarButton">
+                В АНГАР
+            </button>
+
+        </div>
+
+        <div id="minimapContainer">
+            <canvas id="minimapCanvas"></canvas>
+        </div>
+
+    </div>
+    <script>
+        document.querySelectorAll(".researchNode").forEach(node => {
+
+            const check = document.createElement("div");
+
+            check.className = "researchCheck";
+
+            check.textContent = "✓";
+
+            node.appendChild(check);
+
+        });
+    </script>
+    <script src="java.js"></script>
+
+</body>
+
+</html>
