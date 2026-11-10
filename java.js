@@ -314,7 +314,6 @@ map3Image.src =
 const map3RoadImage = new Image();
 map3RoadImage.src = "Krita1/map3_roads.png";
 
-
 const map4Image =
     new Image();
 
@@ -1563,82 +1562,35 @@ function getBattleViewport() {
     let right = 0;
     let bottom = 0;
 
-
-    // ========================================
-    // ПРАВАЯ ПАНЕЛЬ
-    // ========================================
-
     const constructionPanel =
-        document.getElementById(
-            "constructionPanel"
-        );
+        document.getElementById("constructionPanel");
 
     if (
         constructionPanel &&
-        getComputedStyle(
-            constructionPanel
-        ).display !== "none"
+        getComputedStyle(constructionPanel).display !== "none"
     ) {
-
         right =
-            constructionPanel
-                .getBoundingClientRect()
-                .width;
-
+            constructionPanel.getBoundingClientRect().width;
     }
-
-
-    // ========================================
-    // НИЖНЯЯ ПАНЕЛЬ СОЮЗНИКОВ
-    // ========================================
 
     if (
         allyPanel &&
-        getComputedStyle(
-            allyPanel
-        ).display !== "none"
+        getComputedStyle(allyPanel).display !== "none"
     ) {
-
         bottom =
-            allyPanel
-                .getBoundingClientRect()
-                .height;
-
+            allyPanel.getBoundingClientRect().height;
     }
 
-
-    // ========================================
-    // ИГРОВАЯ ОБЛАСТЬ
-    // ========================================
+    const width = battleCanvas.clientWidth;
+    const height = battleCanvas.clientHeight;
 
     return {
-
         left: 0,
-
         top: 0,
-
-        right:
-            battleCanvas.width -
-            right,
-
-        bottom:
-            battleCanvas.height -
-            bottom,
-
-        width:
-            Math.max(
-                1,
-                battleCanvas.width -
-                right
-            ),
-
-        height:
-            Math.max(
-                1,
-                battleCanvas.height -
-                bottom
-            )
-
+        right: width - right,
+        bottom: height - bottom,
+        width: Math.max(1, width - right),
+        height: Math.max(1, height - bottom)
     };
 }
 // ========================================
@@ -1772,7 +1724,7 @@ const battleTanks = [
 
         mass: 10,
 
-        trackSpacing: 44,
+        trackSpacing: 52,
 
         trackWidth: 7,
 
@@ -9478,249 +9430,67 @@ function drawTankHP(tank) {
 
 function updatePlayerTurret(deltaTime) {
 
-    const dt =
-        deltaTime / 1000;
+    const dt = deltaTime / 1000;
 
-
-    // ========================================
-    // ПОЗИЦИЯ ТАНКА НА ЭКРАНЕ
-    // ========================================
+    // Позиция танка на экране
+    const viewport = getBattleViewport();
 
     const tankScreenX =
-        (playerTank.x - camera.x) *
-        camera.zoom +
-        battleCanvas.width / 2;
-
+        (playerTank.x - camera.x) * camera.zoom +
+        viewport.width / 2;
 
     const tankScreenY =
-        (playerTank.y - camera.y) *
-        camera.zoom +
-        battleCanvas.height / 2;
+        (playerTank.y - camera.y) * camera.zoom +
+        viewport.height / 2;
 
-
-    // ========================================
-    // НАПРАВЛЕНИЕ НА МЫШЬ
-    // ========================================
-
+    // Направление на мышь
     const dx =
-        battleMouse.x -
-        tankScreenX;
+        battleMouse.x - tankScreenX;
 
     const dy =
-        battleMouse.y -
-        tankScreenY;
-
+        battleMouse.y - tankScreenY;
 
     const worldAngle =
-        Math.atan2(
-            dx,
-            -dy
-        );
+        Math.atan2(dx, -dy);
 
-
-    // ========================================
-    // ЦЕЛЕВОЙ УГОЛ БАШНИ
-    // ========================================
-
+    // Целевой угол башни
     const targetAngle =
-        worldAngle -
-        playerTank.hull.angle;
+        worldAngle - playerTank.hull.angle;
 
-
-    // ========================================
-    // РАЗНИЦА УГЛОВ
-    // ========================================
-
+    // Разница углов
     let angleDifference =
-        targetAngle -
-        playerTank.turret.angle;
+        targetAngle - playerTank.turret.angle;
 
-
-    while (
-        angleDifference > Math.PI
-    ) {
-
-        angleDifference -=
-            Math.PI * 2;
-
+    while (angleDifference > Math.PI) {
+        angleDifference -= Math.PI * 2;
     }
 
-
-    while (
-        angleDifference < -Math.PI
-    ) {
-
-        angleDifference +=
-            Math.PI * 2;
-
+    while (angleDifference < -Math.PI) {
+        angleDifference += Math.PI * 2;
     }
 
+    // Постоянная скорость поворота
+    const turnSpeed =
+        playerTank.turretTurnSpeed;
 
-    // ========================================
-    // ЖЕЛАЕМОЕ НАПРАВЛЕНИЕ
-    // ========================================
+    const maxStep = turnSpeed * dt;
 
-    let turnDirection = 0;
-
-
-    if (
-        Math.abs(angleDifference) > 0.01
-    ) {
-
-        turnDirection =
-            Math.sign(
-                angleDifference
-            );
-
-    }
-
-
-    // ========================================
-    // УГЛОВОЕ УСКОРЕНИЕ
-    // ========================================
-
-    if (turnDirection !== 0) {
-
-        const angularAcceleration =
-            playerTank.turretTurnSpeed /
-            playerTank.turretAccelerationTime;
-
-
-        // Если близко к цели —
-        // начинаем заранее тормозить
-
-        const slowDownDistance = 0.25;
-
-
-        if (
-            Math.abs(angleDifference) <
-            slowDownDistance
-        ) {
-
-            const desiredSpeed =
-                playerTank.turretTurnSpeed *
-                (
-                    Math.abs(angleDifference) /
-                    slowDownDistance
-                );
-
-
-            if (
-                Math.abs(
-                    playerTank.turretAngularSpeed
-                ) > desiredSpeed
-            ) {
-
-                playerTank.turretAngularSpeed *=
-                    0.85;
-
-            }
-
-        }
-
-        else {
-
-            playerTank.turretAngularSpeed +=
-                turnDirection *
-                angularAcceleration *
-                dt;
-
-        }
-
-    }
-
-
-    // ========================================
-    // ОГРАНИЧЕНИЕ МАКСИМАЛЬНОЙ СКОРОСТИ
-    // ========================================
-
-    playerTank.turretAngularSpeed =
-        Math.max(
-            -playerTank.turretTurnSpeed,
-            Math.min(
-                playerTank.turretTurnSpeed,
-                playerTank.turretAngularSpeed
-            )
-        );
-
-
-    // ========================================
-    // ЕСЛИ МЫШЬ НЕ ДВИЖЕТСЯ
-    // ТОРМОЗИМ БАШНЮ
-    // ========================================
-
-    if (turnDirection === 0) {
-
-        const braking =
-            playerTank.turretTurnSpeed /
-            playerTank.turretBrakingTime;
-
-
-        if (
-            playerTank.turretAngularSpeed > 0
-        ) {
-
-            playerTank.turretAngularSpeed -=
-                braking * dt;
-
-
-            if (
-                playerTank.turretAngularSpeed < 0
-            ) {
-
-                playerTank.turretAngularSpeed = 0;
-
-            }
-
-        }
-
-
-        else if (
-            playerTank.turretAngularSpeed < 0
-        ) {
-
-            playerTank.turretAngularSpeed +=
-                braking * dt;
-
-
-            if (
-                playerTank.turretAngularSpeed > 0
-            ) {
-
-                playerTank.turretAngularSpeed = 0;
-
-            }
-
-        }
-
-    }
-
-
-    // ========================================
-    // ДВИЖЕНИЕ БАШНИ
-    // ========================================
-
-    // Если до цели осталось совсем немного,
-    // просто ставим башню точно на цель
-
-    if (Math.abs(angleDifference) < 0.02) {
+    // Плавное вращение без разгона
+    if (Math.abs(angleDifference) <= maxStep) {
 
         playerTank.turret.angle =
             targetAngle;
 
-        playerTank.turretAngularSpeed = 0;
-
-    }
-
-    // Иначе продолжаем плавное движение
-
-    else {
+    } else {
 
         playerTank.turret.angle +=
-            playerTank.turretAngularSpeed *
-            dt;
+            Math.sign(angleDifference) * maxStep;
 
     }
+
+    // Сбрасываем скорость вращения:
+    // инерция и разгон больше не используются
+    playerTank.turretAngularSpeed = 0;
 
 }
 // ========================================
@@ -12951,12 +12721,10 @@ battleCanvas.addEventListener(
             getBattleViewport();
 
         const viewWidth =
-            battleCanvas.width /
-            camera.zoom;
+            battleCanvas.width / camera.zoom;
 
         const viewHeight =
-            battleCanvas.height /
-            camera.zoom;
+            battleCanvas.height / camera.zoom;
 
 
         const halfWidth =
